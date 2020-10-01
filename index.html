@@ -5,26 +5,76 @@
     return options[index];
   }
   function playRound(playerSelection, computerSelection) {
+    let gameData = {};
     playerSelection = playerSelection.toLowerCase();
     computerSelection = computerSelection.toLowerCase();
-    let playerWins = false;
+    gameData.playerWon = false;
+    gameData.msg = "";
     if (playerSelection === "rock" && computerSelection === "paper") {
-      playerWins = true;
+      gameData.playerWon = true;
     } else if (playerSelection === "paper" && computerSelection === "rock") {
-      playerWins = true;
+      gameData.playerWon = true;
     } else if (playerSelection === "scissors" && computerSelection === "paper") {
-      playerWins = true;
+      gameData.playerWon = true;
     } else if (playerSelection === computerSelection) {
-      console.log(`IT'S A TIE! ${playerSelection} is equal to ${computerSelection}`);
-      return;
+      gameData.playerWon = "tie";
+      gameData.msg = `IT'S A TIE! ${playerSelection} is equal to ${computerSelection}`;
+      return gameData;
     }
-    console.log(`${playerWins ? `YOU WIN! ${playerSelection} beats ${computerSelection}` : `YOU LOSE! ${computerSelection} beats ${playerSelection}`}`);
+    gameData.msg = `${gameData.playerWon ? `YOU WIN! ${playerSelection} beats ${computerSelection}` : `YOU LOSE! ${computerSelection} beats ${playerSelection}`}`;
+    return gameData;
   }
   function getPlayerSelection() {
-    return prompt("Please enter 'Rock', 'Paper', or 'Scissor'");
+    let answer = prompt("Please enter 'Rock', 'Paper', or 'Scissors'");
+    if (answer === "" || answer === null || answer === undefined) {
+      alert("Sorry, that answer appears to be empty. Please enter either 'Rock', 'Paper', or 'Scissors'");
+      getPlayerSelection();
+    } else if (answer !== "rock" || answer !== "paper" || answer !== "scissors") {
+      alert("Please enter either 'Rock', 'Paper', or 'Scissors'");
+      getPlayerSelection();
+    }
+    answer = answer.toLowerCase().trim();
+    return answer;
   }
+  function game() {
+    let numOfPlayerWins = 0;
+    let numOfComputerWins = 0;
+    let numOfTies = 0;
+    let outcome;
+    let msg;
 
-  let playerSelection = "Rock";
-  let computerSelection = computerPlay();
-  console.log(playRound(playerSelection, computerSelection));
+    let numOfRoundsToPlay = Number(prompt("Please enter the number of rounds you would like to play."));
+    if (numOfRoundsToPlay === "NaN" || numOfRoundsToPlay === NaN || numOfRoundsToPlay === 0) {
+      alert("Whoops! Please enter a number, higher than 0, for how many rounds you would like to play.");
+      game();
+    }
+    console.log(numOfRoundsToPlay);
+    numOfRoundsToPlay = numOfRoundsToPlay;
+
+    for (let i=0; i < numOfRoundsToPlay; i++) {
+      outcome = playRound(getPlayerSelection(), computerPlay());
+      result = outcome.playerWon;
+      msg = outcome.msg;
+      console.log(`=== ROUND #${i + 1} ===
+${msg}`);
+      if (result) {
+        numOfPlayerWins++;
+      } else if (!result) {
+        numOfComputerWins++;
+      } else {
+        numOfTies++;
+      }
+    }
+    console.log(`You won: ${numOfPlayerWins} ${numOfPlayerWins > 1 ? "rounds" : "round"}
+The computer won: ${numOfComputerWins} ${numOfComputerWins > 1 ? "rounds" : "round"}
+There were ${numOfTies} ties`);
+    if (numOfPlayerWins > numOfComputerWins) {
+      console.log("Making *YOU* The Winner! Way to go! 🎉");
+    } else if (numOfPlayerWins < numOfComputerWins) {
+      console.log("The computer the winner. Better luck next time. 👾");
+    } else if (numOfPlayerWins === numOfComputerWins) {
+      console.log("Incredible! It's a TIE! Well done to you *and* the computer! 👤🤝🖥");
+    }
+  }
+  game();
 </script>
