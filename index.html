@@ -4,8 +4,9 @@
     let index = Math.floor(Math.random() * Math.floor(options.length));
     return options[index];
   }
-  function getPlayerSelection() {
-    let answer = prompt("Please enter 'Rock', 'Paper', or 'Scissors'");
+  function getPlayerSelection(roundNumber) {
+    roundNumber = roundNumber + 1
+    let answer = prompt(`*ROUND #${roundNumber}!* Please enter 'Rock', 'Paper', or 'Scissors'`);
     if (answer === null) {
       return null;
     }
@@ -14,7 +15,7 @@
       alert("Sorry, that answer appears to be empty. Please enter either 'Rock', 'Paper', or 'Scissors'");
     } else if (answer !== "rock" && answer !== "paper" && answer !== "scissors") {
       alert("Sorry, that answer is not allowed. Please enter either 'Rock', 'Paper', or 'Scissors'");
-      answer = getPlayerSelection();
+      answer = getPlayerSelection(roundNumber);
     }
     return answer;
   }
@@ -39,7 +40,7 @@
       gameData.msg = `IT'S A TIE! ${playerSelection} is equal to ${computerSelection}`;
       return gameData;
     }
-    gameData.msg = `${gameData.playerWon ? `YOU WIN! ${playerSelection} beats ${computerSelection}` : `YOU LOSE! ${computerSelection} beats ${playerSelection}`}`;
+    gameData.msg = `${gameData.playerWon ? `YOU WIN! ${playerSelection} ${playerSelection === "scissors" ? "beat" : "beats"} ${computerSelection}` : `YOU LOSE! ${computerSelection} ${computerSelection === "scissors" ? "beat" : "beats"} ${playerSelection}`}`;
     return gameData;
   }
   function game() {
@@ -59,7 +60,7 @@
     }
 
     for (let i=0; i < numOfRoundsToPlay; i++) {
-      let playerSelection = getPlayerSelection();
+      let playerSelection = getPlayerSelection(i);
         let computerSelection = computerPlay();
         outcome = playRound(playerSelection, computerSelection);
         if (outcome === undefined) {
@@ -87,7 +88,7 @@ And there ${numOfTies > 1 ? "were" : "was"} ${numOfTies} ${numOfTies > 1 ? "ties
     } else if (numOfPlayerWins < numOfComputerWins) {
       console.log("The computer is the winner. Better luck next time. 👾");
     } else if (numOfPlayerWins === numOfComputerWins) {
-      console.log("Incredible! It's a TIE! Well done to you *and* the computer! 👤🤝🖥");
+      console.log("INCREDIBLE! It's a TIE! Well done to you *and* the computer! 👤🤝🖥");
     }
     console.log("### ========================================== ###");
   }
