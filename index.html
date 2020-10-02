@@ -81,7 +81,7 @@ ${msg}
     console.log(`### ========================================== ###
 You won: ${numOfPlayerWins} ${numOfPlayerWins > 1 ? "rounds" : "round"}
 The computer won: ${numOfComputerWins} ${numOfComputerWins > 1 ? "rounds" : "round"}
-There were ${numOfTies} ties`);
+And there ${numOfTies > 1 ? "were" : "was"} ${numOfTies} ${numOfTies > 1 ? "ties" : "tie"}`);
     if (numOfPlayerWins > numOfComputerWins) {
       console.log("Making *YOU* The Winner! Way to go! 🎉");
     } else if (numOfPlayerWins < numOfComputerWins) {
