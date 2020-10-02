@@ -67,29 +67,29 @@
         }
         result = outcome.playerWon;
         msg = outcome.msg;
-        console.log(`=== ROUND #${i + 1} ===
-${msg}`);
-        
-        if (result) {
+        console.log(`-------------------- ROUND #${i + 1} --------------------
+${msg}
+`);
+        if (result === "tie") {
+          numOfTies++;
+        } else if (result) {
           numOfPlayerWins++;
         } else if (!result) {
           numOfComputerWins++;
-        } else {
-          numOfTies++;
         }
     }
-    console.log(`### ================= ###
+    console.log(`### ========================================== ###
 You won: ${numOfPlayerWins} ${numOfPlayerWins > 1 ? "rounds" : "round"}
 The computer won: ${numOfComputerWins} ${numOfComputerWins > 1 ? "rounds" : "round"}
 There were ${numOfTies} ties`);
     if (numOfPlayerWins > numOfComputerWins) {
       console.log("Making *YOU* The Winner! Way to go! 🎉");
     } else if (numOfPlayerWins < numOfComputerWins) {
-      console.log("The computer the winner. Better luck next time. 👾");
+      console.log("The computer is the winner. Better luck next time. 👾");
     } else if (numOfPlayerWins === numOfComputerWins) {
       console.log("Incredible! It's a TIE! Well done to you *and* the computer! 👤🤝🖥");
     }
-    console.log("### ================= ###");
+    console.log("### ========================================== ###");
   }
   game();
 </script>
