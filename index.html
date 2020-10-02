@@ -12,10 +12,9 @@
     answer = answer.toLowerCase().trim();
     if (answer === "" || answer === undefined) {
       alert("Sorry, that answer appears to be empty. Please enter either 'Rock', 'Paper', or 'Scissors'");
-      getPlayerSelection();
     } else if (answer !== "rock" && answer !== "paper" && answer !== "scissors") {
       alert("Sorry, that answer is not allowed. Please enter either 'Rock', 'Paper', or 'Scissors'");
-      getPlayerSelection();
+      answer = getPlayerSelection();
     }
     return answer;
   }
@@ -58,25 +57,26 @@
       alert("Whoops! Please enter a number, higher than 0, for how many rounds you would like to play.");
       game();
     }
-    console.log(numOfRoundsToPlay);
-    numOfRoundsToPlay = numOfRoundsToPlay;
 
     for (let i=0; i < numOfRoundsToPlay; i++) {
-      outcome = playRound(getPlayerSelection(), computerPlay());
-      if (outcome === undefined) {
-        return;
-      }
-      result = outcome.playerWon;
-      msg = outcome.msg;
-      console.log(`=== ROUND #${i + 1} ===
+      let playerSelection = getPlayerSelection();
+        let computerSelection = computerPlay();
+        outcome = playRound(playerSelection, computerSelection);
+        if (outcome === undefined) {
+          return;
+        }
+        result = outcome.playerWon;
+        msg = outcome.msg;
+        console.log(`=== ROUND #${i + 1} ===
 ${msg}`);
-      if (result) {
-        numOfPlayerWins++;
-      } else if (!result) {
-        numOfComputerWins++;
-      } else {
-        numOfTies++;
-      }
+        
+        if (result) {
+          numOfPlayerWins++;
+        } else if (!result) {
+          numOfComputerWins++;
+        } else {
+          numOfTies++;
+        }
     }
     console.log(`### ================= ###
 You won: ${numOfPlayerWins} ${numOfPlayerWins > 1 ? "rounds" : "round"}
