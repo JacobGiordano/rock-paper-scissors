@@ -6,15 +6,15 @@
   }
   function getPlayerSelection(roundNumber) {
     roundNumber = roundNumber + 1
-    let answer = prompt(`*ROUND #${roundNumber}!* Please enter 'Rock', 'Paper', or 'Scissors'`);
+    let answer = prompt(`*ROUND #${roundNumber}!* Please enter 'Rock', 'Paper', or 'Scissors' (not case-sensitive):`);
     if (answer === null) {
       return null;
     }
     answer = answer.toLowerCase().trim();
     if (answer === "" || answer === undefined) {
-      alert("Sorry, that answer appears to be empty. Please enter either 'Rock', 'Paper', or 'Scissors'");
+      alert("Sorry, that answer appears to be empty. Please enter either 'Rock', 'Paper', or 'Scissors':");
     } else if (answer !== "rock" && answer !== "paper" && answer !== "scissors") {
-      alert("Sorry, that answer is not allowed. Please enter either 'Rock', 'Paper', or 'Scissors'");
+      alert("Sorry, that answer is not allowed. Please enter either 'Rock', 'Paper', or 'Scissors':");
       answer = getPlayerSelection(roundNumber);
     }
     return answer;
@@ -37,7 +37,7 @@
       gameData.playerWon = true;
     } else if (playerSelection === computerSelection) {
       gameData.playerWon = "tie";
-      gameData.msg = `IT'S A TIE! ${playerSelection} is equal to ${computerSelection}`;
+      gameData.msg = `IT'S A TIE! ${playerSelection} ${playerSelection === "scissors" ? "are" : "is"} equal to ${computerSelection}`;
       return gameData;
     }
     gameData.msg = `${gameData.playerWon ? `YOU WIN! ${playerSelection} ${playerSelection === "scissors" ? "beat" : "beats"} ${computerSelection}` : `YOU LOSE! ${computerSelection} ${computerSelection === "scissors" ? "beat" : "beats"} ${playerSelection}`}`;
@@ -50,12 +50,12 @@
     let outcome;
     let msg;
 
-    let numOfRoundsToPlay = Number(prompt("Please enter the number of rounds you would like to play."));
+    let numOfRoundsToPlay = Number(prompt("Please enter the number of rounds you would like to play:"));
     if (numOfRoundsToPlay === 0) {
       return;
     }
     else if (isNaN(numOfRoundsToPlay) || numOfRoundsToPlay === "NaN" || numOfRoundsToPlay === NaN) {
-      alert("Whoops! Please enter a number, higher than 0, for how many rounds you would like to play.");
+      alert("Whoops! Please enter a number, higher than 0, for how many rounds you would like to play:");
       game();
     }
 
