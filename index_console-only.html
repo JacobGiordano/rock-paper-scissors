@@ -1,55 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rock, Paper, Scissors</title>
-</head>
-<body>
-  <h1 class="page-title">Rock, Paper, Scissors</h1>
-  <h2 id="round-counter"></h2>
-  <div class="container">
-    <button id="btn-rock" class="option-button">Rock</button>
-    <button id="btn-paper" class="option-button">Paper</button>
-    <button id="btn-scissors" class="option-button">Scissors</button>
-  </div>
-</body>
 <script>
-  const optionButtons = document.querySelectorAll(".option-button");
-  console.log(optionButtons);
-  optionButtons.forEach(key => key.addEventListener("click", handleOptionButtonClick))
-
   function computerPlay() {
     const options = ["rock", "paper", "scissors"];
     let index = Math.floor(Math.random() * Math.floor(options.length));
     return options[index];
   }
-  function handleOptionButtonClick(e) {
-    const computerSelection = computerPlay();
-    if (e.target.id === "btn-rock") {
-      playRound("rock", computerSelection);
-    } else if (e.target.id === "btn-paper") {
-      playRound("paper", computerSelection);
-    } else if (e.target.id === "btn-scissors") {
-      playRound("scissors", computerSelection);
+  function getPlayerSelection(roundNumber) {
+    roundNumber = roundNumber + 1
+    let answer = prompt(`*ROUND #${roundNumber}!* Please enter 'Rock', 'Paper', or 'Scissors' (not case-sensitive):`);
+    if (answer === null) {
+      return null;
     }
+    answer = answer.toLowerCase().trim();
+    if (answer === "" || answer === undefined) {
+      alert("Sorry, that answer appears to be empty. Please enter either 'Rock', 'Paper', or 'Scissors':");
+    } else if (answer !== "rock" && answer !== "paper" && answer !== "scissors") {
+      alert("Sorry, that answer is not allowed. Please enter either 'Rock', 'Paper', or 'Scissors':");
+      answer = getPlayerSelection(roundNumber);
+    }
+    return answer;
   }
-  // function getPlayerSelection(roundNumber) {
-  //   roundNumber = roundNumber + 1
-  //   document.getElementById("round-counter").textContent = `Round ${roundNumber}`
-  //   let answer = prompt(`*ROUND #${roundNumber}!* Please enter 'Rock', 'Paper', or 'Scissors' (not case-sensitive):`);
-  //   if (answer === null) {
-  //     return null;
-  //   }
-  //   answer = answer.toLowerCase().trim();
-  //   if (answer === "" || answer === undefined) {
-  //     alert("Sorry, that answer appears to be empty. Please enter either 'Rock', 'Paper', or 'Scissors':");
-  //   } else if (answer !== "rock" && answer !== "paper" && answer !== "scissors") {
-  //     alert("Sorry, that answer is not allowed. Please enter either 'Rock', 'Paper', or 'Scissors':");
-  //     answer = getPlayerSelection(roundNumber);
-  //   }
-  //   return answer;
-  // }
   function playRound(playerSelection, computerSelection) {
     let gameData = {};
     if (playerSelection === null) {
@@ -72,7 +41,6 @@
       return gameData;
     }
     gameData.msg = `${gameData.playerWon ? `YOU WIN! ${playerSelection} ${playerSelection === "scissors" ? "beat" : "beats"} ${computerSelection}` : `YOU LOSE! ${computerSelection} ${computerSelection === "scissors" ? "beat" : "beats"} ${playerSelection}`}`;
-    console.log(gameData);
     return gameData;
   }
   function game() {
@@ -82,14 +50,14 @@
     let outcome;
     let msg;
 
-    // let numOfRoundsToPlay = Number(prompt("Please enter the number of rounds you would like to play:"));
-    // if (numOfRoundsToPlay === 0) {
-    //   return;
-    // }
-    // else if (isNaN(numOfRoundsToPlay) || numOfRoundsToPlay === "NaN" || numOfRoundsToPlay === NaN) {
-    //   alert("Whoops! Please enter a number, higher than 0, for how many rounds you would like to play:");
-    //   game();
-    // }
+    let numOfRoundsToPlay = Number(prompt("Please enter the number of rounds you would like to play:"));
+    if (numOfRoundsToPlay === 0) {
+      return;
+    }
+    else if (isNaN(numOfRoundsToPlay) || numOfRoundsToPlay === "NaN" || numOfRoundsToPlay === NaN) {
+      alert("Whoops! Please enter a number, higher than 0, for how many rounds you would like to play:");
+      game();
+    }
 
     for (let i=0; i < numOfRoundsToPlay; i++) {
       let playerSelection = getPlayerSelection(i);
@@ -124,6 +92,5 @@ And there ${numOfTies > 1 ? "were" : "was"} ${numOfTies} ${numOfTies > 1 ? "ties
     }
     console.log("### ========================================== ###");
   }
-  // game();
+  game();
 </script>
-</html>
