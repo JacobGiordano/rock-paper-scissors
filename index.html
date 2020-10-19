@@ -3,21 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
   <title>Rock, Paper, Scissors</title>
 </head>
 <body>
   <h1 class="page-title">Rock, Paper, Scissors</h1>
   <h2 id="round-counter"></h2>
+  <label for="num-of-rounds">
+    <input id="num-of-rounds" type="number" value=1 name="num-of-rounds" />
+  </label>
   <div class="container">
     <button id="btn-rock" class="option-button">Rock</button>
     <button id="btn-paper" class="option-button">Paper</button>
     <button id="btn-scissors" class="option-button">Scissors</button>
   </div>
+  <div id="results"></div>
 </body>
 <script>
   const optionButtons = document.querySelectorAll(".option-button");
-  console.log(optionButtons);
-  optionButtons.forEach(key => key.addEventListener("click", handleOptionButtonClick))
+  optionButtons.forEach(button => button.addEventListener("click", handleOptionButtonClick))
 
   function computerPlay() {
     const options = ["rock", "paper", "scissors"];
@@ -34,32 +38,16 @@
       playRound("scissors", computerSelection);
     }
   }
-  // function getPlayerSelection(roundNumber) {
-  //   roundNumber = roundNumber + 1
-  //   document.getElementById("round-counter").textContent = `Round ${roundNumber}`
-  //   let answer = prompt(`*ROUND #${roundNumber}!* Please enter 'Rock', 'Paper', or 'Scissors' (not case-sensitive):`);
-  //   if (answer === null) {
-  //     return null;
-  //   }
-  //   answer = answer.toLowerCase().trim();
-  //   if (answer === "" || answer === undefined) {
-  //     alert("Sorry, that answer appears to be empty. Please enter either 'Rock', 'Paper', or 'Scissors':");
-  //   } else if (answer !== "rock" && answer !== "paper" && answer !== "scissors") {
-  //     alert("Sorry, that answer is not allowed. Please enter either 'Rock', 'Paper', or 'Scissors':");
-  //     answer = getPlayerSelection(roundNumber);
-  //   }
-  //   return answer;
-  // }
   function playRound(playerSelection, computerSelection) {
     let gameData = {};
     if (playerSelection === null) {
-      return;
+      gameData.msg = "Error. Play selection is null.";
     } else {
       playerSelection = playerSelection.toLowerCase();
     }
     computerSelection = computerSelection.toLowerCase();
     gameData.playerWon = false;
-    gameData.msg = "";
+    // gameData.msg = "";
     if (playerSelection === "rock" && computerSelection === "paper") {
       gameData.playerWon = true;
     } else if (playerSelection === "paper" && computerSelection === "rock") {
@@ -69,9 +57,15 @@
     } else if (playerSelection === computerSelection) {
       gameData.playerWon = "tie";
       gameData.msg = `IT'S A TIE! ${playerSelection} ${playerSelection === "scissors" ? "are" : "is"} equal to ${computerSelection}`;
-      return gameData;
+      // return gameData;
     }
     gameData.msg = `${gameData.playerWon ? `YOU WIN! ${playerSelection} ${playerSelection === "scissors" ? "beat" : "beats"} ${computerSelection}` : `YOU LOSE! ${computerSelection} ${computerSelection === "scissors" ? "beat" : "beats"} ${playerSelection}`}`;
+
+    if (document.getElementById("results").textContent == "") {
+      document.getElementById("results").textContent = `${gameData.msg}`;
+    } else {
+      document.getElementById("results").textContent = `${gameData.msg} \n` + document.getElementById("results").textContent;
+    }
     console.log(gameData);
     return gameData;
   }
