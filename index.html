@@ -18,6 +18,7 @@
     <button id="btn-paper" class="option-button">Paper</button>
     <button id="btn-scissors" class="option-button">Scissors</button>
   </div>
+  <div id="final-scores"></div>
   <div id="results"></div>
 </body>
 <script>
@@ -29,6 +30,7 @@
     let index = Math.floor(Math.random() * Math.floor(options.length));
     return options[index];
   }
+
   function handleOptionButtonClick(e) {
     let result;
     const computerSelection = computerPlay();
@@ -40,14 +42,36 @@
       result = playRound("scissors", computerSelection);
     }
     
-    if (document.getElementById("results").textContent == "") {
-      document.getElementById("results").textContent = `${result.msg}`;
-    } else {
-      document.getElementById("results").textContent = `${result.msg} \n` + document.getElementById("results").textContent;
-    }
     updateGameState(result);
-    console.log(result);
+    displayMessages(result);
   }
+
+  function displayMessages(result) {
+    let gameData = window.gameData;
+
+    if (document.getElementById("results").textContent == "") {
+      document.getElementById("results").textContent = `ROUND ${window.gameData.playedRounds} ${result.msg}`;
+    } else {
+      document.getElementById("results").textContent = `ROUND ${window.gameData.playedRounds} ${result.msg} \n` + document.getElementById("results").textContent;
+    }
+    console.log(result);
+
+    if (gameData.playedRounds === gameData.totalRounds) {
+      console.log(`### ========================================== ###
+You won: ${gameData.numOfPlayerWins} ${gameData.numOfPlayerWins > 1 ? "rounds" : "round"}
+The computer won: ${gameData.numOfComputerWins} ${gameData.numOfComputerWins > 1 ? "rounds" : "round"}
+And there ${gameData.numOfTies > 1 ? "were" : "was"} ${gameData.numOfTies} ${gameData.numOfTies > 1 ? "ties" : "tie"}`);
+      if (gameData.numOfPlayerWins > gameData.numOfComputerWins) {
+        console.log("Making *YOU* The Winner! Way to go! 🎉");
+      } else if (gameData.numOfPlayerWins < gameData.numOfComputerWins) {
+        console.log("The computer is the winner. Better luck next time. 👾");
+      } else if (gameData.numOfPlayerWins === gameData.numOfComputerWins) {
+        console.log("INCREDIBLE! It's a TIE! Well done to you *and* the computer! 👤🤝🖥");
+      }
+      console.log("### ========================================== ###");
+    }
+  }
+
   function playRound(playerSelection, computerSelection) {
     let roundData = {};
     if (playerSelection === null) {
@@ -66,29 +90,33 @@
     } else if (playerSelection === computerSelection) {
       roundData.playerWon = "tie";
       roundData.msg = `IT'S A TIE! ${playerSelection} ${playerSelection === "scissors" ? "are" : "is"} equal to ${computerSelection}`;
+      return roundData;
     }
     roundData.msg = `${roundData.playerWon ? `YOU WIN! ${playerSelection} ${playerSelection === "scissors" ? "beat" : "beats"} ${computerSelection}` : `YOU LOSE! ${computerSelection} ${computerSelection === "scissors" ? "beat" : "beats"} ${playerSelection}`}`;
     return roundData;
   }
+
   function updateGameState(roundResult) {
     let result = roundResult.playerWon;
     let gameData = window.gameData;
     let numOfPlayerWins;
     let numOfComputerWins;
     let numOfTies;
-    let roundsLeft;
+    let totalRounds;
+    let playedRounds;
 
     if (gameData === undefined) {
       window.gameData = {
         numOfPlayerWins: 0,
         numOfComputerWins: 0,
         numOfTies: 0,
-        roundsLeft: Number(document.getElementById("num-of-rounds").value)
+        playedRounds: 0,
+        totalRounds: Number(document.getElementById("num-of-rounds").value)
       }
     }
     gameData = window.gameData;
 
-    if (gameData.roundsLeft > 0) {
+    if (gameData.playedRounds < gameData.totalRounds) {
       if (result === "tie") {
         gameData.numOfTies++;
       } else if (result) {
@@ -96,23 +124,8 @@
       } else if (!result) {
         gameData.numOfComputerWins++;
       }
-      gameData.roundsLeft--;
+      gameData.playedRounds++;
     }
-    else {
-      console.log(`### ========================================== ###
-You won: ${gameData.numOfPlayerWins} ${gameData.numOfPlayerWins > 1 ? "rounds" : "round"}
-The computer won: ${gameData.numOfComputerWins} ${gameData.numOfComputerWins > 1 ? "rounds" : "round"}
-And there ${gameData.numOfTies > 1 ? "were" : "was"} ${gameData.numOfTies} ${gameData.numOfTies > 1 ? "ties" : "tie"}`);
-    if (numOfPlayerWins > numOfComputerWins) {
-      console.log("Making *YOU* The Winner! Way to go! 🎉");
-    } else if (numOfPlayerWins < numOfComputerWins) {
-      console.log("The computer is the winner. Better luck next time. 👾");
-    } else if (numOfPlayerWins === numOfComputerWins) {
-      console.log("INCREDIBLE! It's a TIE! Well done to you *and* the computer! 👤🤝🖥");
-    }
-    console.log("### ========================================== ###");
   }
-      return;
-    }
 </script>
 </html>
