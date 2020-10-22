@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./css/style.css">
   <link rel="shortcut icon" href="">
   <title>Rock, Paper, Scissors</title>
 </head>
@@ -14,16 +14,19 @@
     <input id="num-of-rounds" type="number" value=1 name="num-of-rounds" />
   </label>
   <div class="container">
-    <button id="btn-rock" class="option-button">Rock</button>
-    <button id="btn-paper" class="option-button">Paper</button>
-    <button id="btn-scissors" class="option-button">Scissors</button>
+    <button id="btn-rock" class="choice-button"><img class="choice-btn__svg" src="./images/svg/rock.svg">Rock</button>
+    <button id="btn-paper" class="choice-button"><img class="choice-btn__svg" src="./images/svg/paper.svg">Paper</button>
+    <button id="btn-scissors" class="choice-button"><img class="choice-btn__svg" src="./images/svg/scissors.svg">Scissors</button>
   </div>
   <div id="final-score"></div>
-  <button id="play-again" class="hidden">Play again</button>
+  <button id="play-again">Reset</button>
   <div id="results"></div>
 </body>
+<footer>
+  <a class="icons-attribution" href="https://www.vecteezy.com/free-vector/rock-paper-scissors">Rock Paper Scissors Vectors by Vecteezy</a>
+</footer>
 <script>
-  const optionButtons = document.querySelectorAll(".option-button");
+  const optionButtons = document.querySelectorAll(".choice-button");
   optionButtons.forEach(button => button.addEventListener("click", handleOptionButtonClick));
 
   const playAgainBtn = document.getElementById("play-again");
@@ -35,27 +38,26 @@
     return options[index];
   }
 
-  function handleOptionButtonClick(e) {
+  function handleOptionButtonClick() {
     let result;
     const playAgainBtn = document.getElementById("play-again");
     const numOfRoundsInput = document.getElementById("num-of-rounds");
 
     const computerSelection = computerPlay();
-    if (e.target.id === "btn-rock") {
+    if (this.id === "btn-rock") {
       result = playRound("rock", computerSelection);
-    } else if (e.target.id === "btn-paper") {
+    } else if (this.id === "btn-paper") {
       result = playRound("paper", computerSelection);
-    } else if (e.target.id === "btn-scissors") {
+    } else if (this.id === "btn-scissors") {
       result = playRound("scissors", computerSelection);
     }
-    if (!playAgainBtn.classList.contains("hidden")) {
-      resetGame();
-    }
+
     updateGameState(result);
     displayMessages(result);
 
     if (window.gameData.totalRounds > window.gameData.playedRounds) {
       numOfRoundsInput.disabled = true;
+      document.getElementById("play-again").textContent = "Reset";
     } else {
       numOfRoundsInput.disabled = false;
     }
@@ -75,7 +77,7 @@
     createGameState();
     document.getElementById("final-score").textContent = "";
     document.getElementById("results").textContent = "";
-    document.getElementById("play-again").classList.add("hidden");
+    document.getElementById("num-of-rounds").disabled = false;
   }
 
   function displayMessages(result) {
@@ -102,7 +104,7 @@ And there ${gameData.numOfTies > 1 ? "were" : "was"} ${gameData.numOfTies} ${gam
       }
       finalScore += "\n ### ========================================== ###";
       document.getElementById("final-score").textContent = finalScore;
-      document.getElementById("play-again").classList.remove("hidden");
+      document.getElementById("play-again").textContent = "Play again";
     }
   }
 
