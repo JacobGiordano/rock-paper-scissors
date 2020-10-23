@@ -8,12 +8,28 @@ html {
   font-size: 16px;
 }
 body {
+  display: block;
   font-family: Arial, Helvetica, sans-serif;
+  color: #424242;
   font-size: 16px;
+  line-height: 1.5;
   padding: 1rem;
+  max-width: 760px;
+  text-align: center;
+  margin: 0 auto;
+}
+input {
+  padding: .5rem;
+}
+.page-title {
+  margin: 1rem;
+}
+#num-of-rounds {
+  max-width: 4rem;
 }
 #results, #final-score {
   white-space: break-spaces;
+  margin: 1rem auto;
 }
 .choice-button {
   display: inline-block;

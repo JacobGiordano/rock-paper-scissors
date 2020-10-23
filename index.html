@@ -11,6 +11,7 @@
   <h1 class="page-title">Rock, Paper, Scissors</h1>
   <h2 id="round-counter"></h2>
   <label for="num-of-rounds">
+    Number of rounds to play:
     <input id="num-of-rounds" type="number" value=1 name="num-of-rounds" />
   </label>
   <div class="container">
@@ -19,7 +20,7 @@
     <button id="btn-scissors" class="choice-button"><img class="choice-btn__svg" src="./images/svg/scissors.svg">Scissors</button>
   </div>
   <div id="final-score"></div>
-  <button id="play-again">Reset</button>
+  <button id="play-again" class="hidden">Reset</button>
   <div id="results"></div>
 </body>
 <footer>
@@ -42,6 +43,7 @@
     let result;
     const playAgainBtn = document.getElementById("play-again");
     const numOfRoundsInput = document.getElementById("num-of-rounds");
+    const totalRounds = numOfRoundsInput.value;
 
     const computerSelection = computerPlay();
     if (this.id === "btn-rock") {
@@ -55,11 +57,16 @@
     updateGameState(result);
     displayMessages(result);
 
-    if (window.gameData.totalRounds > window.gameData.playedRounds) {
+
+    if (totalRounds > window.gameData.playedRounds) {
       numOfRoundsInput.disabled = true;
-      document.getElementById("play-again").textContent = "Reset";
-    } else {
-      numOfRoundsInput.disabled = false;
+      playAgainBtn.textContent = "Reset";
+      playAgainBtn.classList.remove("hidden");
+    } else if (totalRounds === window.gameData.playedRounds) {
+      playAgainBtn.classList.remove("hidden");
+    } else if (totalRounds < window.gameData.playedRounds) {
+      resetGame();
+      playAgainBtn.classList.add("hidden");
     }
   }
 
@@ -68,8 +75,7 @@
         numOfPlayerWins: 0,
         numOfComputerWins: 0,
         numOfTies: 0,
-        playedRounds: 0,
-        totalRounds: Number(document.getElementById("num-of-rounds").value)
+        playedRounds: 0
       }
   }
 
@@ -78,10 +84,13 @@
     document.getElementById("final-score").textContent = "";
     document.getElementById("results").textContent = "";
     document.getElementById("num-of-rounds").disabled = false;
+    document.getElementById("play-again").classList.add("hidden");
   }
 
   function displayMessages(result) {
     let gameData = window.gameData;
+    const numOfRoundsInput = document.getElementById("num-of-rounds");
+    const totalRounds = numOfRoundsInput.value;
 
     if (document.getElementById("results").textContent == "") {
       document.getElementById("results").textContent = `ROUND ${window.gameData.playedRounds} ${result.msg}`;
@@ -90,7 +99,7 @@
     }
     console.log(result);
 
-    if (gameData.playedRounds === gameData.totalRounds) {
+    if (totalRounds <= gameData.playedRounds) {
       let finalScore = `### ========================================== ###
 You won: ${gameData.numOfPlayerWins} ${gameData.numOfPlayerWins > 1 ? "rounds" : "round"}
 The computer won: ${gameData.numOfComputerWins} ${gameData.numOfComputerWins > 1 ? "rounds" : "round"}
@@ -102,9 +111,10 @@ And there ${gameData.numOfTies > 1 ? "were" : "was"} ${gameData.numOfTies} ${gam
       } else if (gameData.numOfPlayerWins === gameData.numOfComputerWins) {
         finalScore += "\nINCREDIBLE! It's a TIE! Well done to you *and* the computer! 👤🤝🖥";
       }
-      finalScore += "\n ### ========================================== ###";
+      finalScore += "\n### ========================================== ###";
       document.getElementById("final-score").textContent = finalScore;
       document.getElementById("play-again").textContent = "Play again";
+      numOfRoundsInput.disabled = false;
     }
   }
 
@@ -138,24 +148,22 @@ And there ${gameData.numOfTies > 1 ? "were" : "was"} ${gameData.numOfTies} ${gam
     let numOfPlayerWins;
     let numOfComputerWins;
     let numOfTies;
-    let totalRounds;
     let playedRounds;
+    const totalRounds = document.getElementById("num-of-rounds").value;
 
     if (gameData === undefined) {
       createGameState();
     }
     gameData = window.gameData;
 
-    if (gameData.playedRounds < gameData.totalRounds) {
-      if (result === "tie") {
-        gameData.numOfTies++;
-      } else if (result) {
-        gameData.numOfPlayerWins++;
-      } else if (!result) {
-        gameData.numOfComputerWins++;
-      }
-      gameData.playedRounds++;
+    if (result === "tie") {
+      gameData.numOfTies++;
+    } else if (result) {
+      gameData.numOfPlayerWins++;
+    } else if (!result) {
+      gameData.numOfComputerWins++;
     }
+    gameData.playedRounds++;
   }
 </script>
 </html>
