@@ -33,6 +33,8 @@
   const playAgainBtn = document.getElementById("play-again");
   playAgainBtn.addEventListener("click", resetGame);
 
+  const numOfRoundsInput = document.getElementById("num-of-rounds").addEventListener("change", resetGame);
+
   function computerPlay() {
     const options = ["rock", "paper", "scissors"];
     let index = Math.floor(Math.random() * Math.floor(options.length));

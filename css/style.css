@@ -13,10 +13,27 @@ body {
   color: #424242;
   font-size: 16px;
   line-height: 1.5;
-  padding: 1rem;
+  padding: 1rem 1rem 4rem 1rem;
   max-width: 760px;
   text-align: center;
   margin: 0 auto;
+}
+footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: white;
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid #cecece;
+}
+.icons-attribution {
+  font-size: .75rem;
+}
+button {
+  padding: .25rem .5rem;
+  cursor: pointer;
 }
 input {
   padding: .5rem;
